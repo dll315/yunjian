@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>云笺 · 诗词与科技简报推送</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/vendor/lucide.min.js" defer></script>
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-seal" aria-hidden="true"><i data-lucide="feather"></i></span>
+        <div class="brand-text">
+          <h1>云笺</h1>
+          <p>诗词与科技简报</p>
+        </div>
+      </div>
+      <div class="topbar-status">
+        <span id="webhookBadge" class="badge badge-muted">机器人未配置</span>
+        <span id="aiBadge" class="badge badge-muted">AI 未配置</span>
+        <span id="schedulerBadge" class="badge badge-muted">定时推送未开启</span>
+        <button id="openSettingsBtn" class="btn btn-ghost" type="button">
+          <i data-lucide="settings-2"></i>
+          <span>设置</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="main-grid">
+      <section class="panel poem-panel" aria-labelledby="poemTitle">
+        <div class="panel-head">
+          <div>
+            <p class="eyebrow" id="poemCat">今日诗词</p>
+            <h2 id="poemTitle">正在取诗…</h2>
+            <p class="author" id="poemAuthor"></p>
+          </div>
+          <div class="panel-actions">
+            <button id="refreshPoemBtn" class="btn btn-primary" type="button">
+              <i data-lucide="refresh-cw"></i><span>换一首</span>
+            </button>
+            <button id="pushPoemBtn" class="btn btn-vermilion" type="button">
+              <i data-lucide="send"></i><span>推送</span>
+            </button>
+          </div>
+        </div>
+        <div class="poem-canvas">
+          <div class="seal" aria-hidden="true">笺</div>
+          <blockquote id="poemText"></blockquote>
+          <div class="poem-meta">
+            <span id="poemSource"></span>
+            <span id="poemTime"></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel brief-panel" aria-labelledby="briefTitle">
+        <div class="panel-head">
+          <div>
+            <p class="eyebrow">Tech Brief</p>
+            <h2 id="briefTitle">科技简报</h2>
+          </div>
+          <div class="panel-actions">
+            <button id="refreshBriefBtn" class="btn btn-primary" type="button">
+              <i data-lucide="sparkles"></i><span>获取简报</span>
+            </button>
+            <button id="pushBriefBtn" class="btn btn-vermilion" type="button">
+              <i data-lucide="send"></i><span>推送</span>
+            </button>
+          </div>
+        </div>
+        <div class="brief-body" id="briefBody">
+          <div class="empty-state">
+            <i data-lucide="newspaper"></i>
+            <p>科技简报待生成</p>
+          </div>
+        </div>
+        <div class="brief-foot" id="briefMeta"></div>
+      </section>
+    </main>
+
+    <section class="log-strip" aria-label="推送记录">
+      <div class="log-head">
+        <i data-lucide="history"></i>
+        <h2>最近推送</h2>
+      </div>
+      <ol id="logList" class="log-list">
+        <li class="log-empty">还没有推送记录</li>
+      </ol>
+    </section>
+  </div>
+
+  <aside id="settingsDrawer" class="drawer" aria-hidden="true">
+    <div class="drawer-head">
+      <div>
+        <p class="eyebrow">Settings</p>
+        <h2>设置</h2>
+      </div>
+      <button id="closeSettingsBtn" class="icon-btn" type="button" aria-label="关闭设置">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+
+    <form id="settingsForm" class="settings-form" autocomplete="off">
+      <div class="field" id="passwordField">
+        <label for="currentPassword" id="passwordLabel">当前管理密码</label>
+        <div class="unlock-row" id="unlockRow">
+          <input id="currentPassword" type="password" autocomplete="current-password" placeholder="管理密码">
+          <button id="unlockBtn" class="btn btn-primary" type="button">解锁</button>
+        </div>
+      </div>
+
+      <div class="field hidden" id="newPasswordField">
+        <label for="newPassword">新管理密码（可选）</label>
+        <input id="newPassword" type="password" autocomplete="new-password" placeholder="留空则不修改">
+      </div>
+
+      <div id="settingsBody" class="settings-body hidden">
+        <section class="settings-section">
+          <h3>企业微信机器人</h3>
+          <div class="field">
+            <label for="webhook">Webhook 地址</label>
+            <textarea id="webhook" rows="3" placeholder="https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=..."></textarea>
+          </div>
+        </section>
+
+        <section class="settings-section">
+          <h3>AI 整理科技简报</h3>
+          <label class="switch-row">
+            <span>启用 AI</span>
+            <input id="aiEnabled" type="checkbox">
+            <span class="switch"></span>
+          </label>
+          <div class="field-grid">
+            <div class="field">
+              <label for="aiBaseUrl">API 地址</label>
+              <input id="aiBaseUrl" type="url" placeholder="https://api.openai.com/v1">
+            </div>
+            <div class="field">
+              <label for="aiModel">模型</label>
+              <input id="aiModel" type="text" placeholder="gpt-4o-mini">
+            </div>
+          </div>
+          <div class="field">
+            <label for="aiKey">API Key</label>
+            <div class="input-with-action">
+              <input id="aiKey" type="password" autocomplete="off" placeholder="sk-...">
+              <button id="toggleKeyBtn" class="text-btn" type="button">显示</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="settings-section">
+          <h3>定时推送</h3>
+          <label class="switch-row">
+            <span>启用定时推送</span>
+            <input id="schedulerEnabled" type="checkbox">
+            <span class="switch"></span>
+          </label>
+          <div id="schedulerOptions" class="scheduler-options">
+            <div class="field">
+              <label for="schedulerTimezone">时区</label>
+              <input id="schedulerTimezone" type="text" placeholder="Asia/Shanghai" autocomplete="off">
+              <p class="field-hint" id="schedulerNext">尚未设置推送时间</p>
+            </div>
+            <div class="field">
+              <label>推送时间</label>
+              <div id="schedulerTimes" class="time-list"></div>
+              <button id="addTimeBtn" class="btn btn-ghost btn-sm" type="button">
+                <i data-lucide="plus"></i><span>添加时间</span>
+              </button>
+            </div>
+            <fieldset class="check-grid compact">
+              <legend>推送内容</legend>
+              <label><input type="checkbox" name="schedulerItem" value="poem"> 古诗词</label>
+              <label><input type="checkbox" name="schedulerItem" value="brief"> 科技简报</label>
+            </fieldset>
+          </div>
+        </section>
+
+        <section class="settings-section">
+          <h3>诗词与简报</h3>
+          <div class="field-grid">
+            <div class="field">
+              <label for="poemSource">诗词来源</label>
+              <select id="poemSource">
+                <option value="jinrishici">今日诗词 API</option>
+                <option value="auto">自动（优先 AI）</option>
+                <option value="ai">AI 创作</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="poemTheme">AI 主题</label>
+              <input id="poemTheme" type="text" placeholder="秋夜">
+            </div>
+          </div>
+
+          <fieldset class="check-grid">
+            <legend>简报来源</legend>
+            <label><input type="checkbox" name="briefSource" value="hackernews"> Hacker News</label>
+            <label><input type="checkbox" name="briefSource" value="github"> GitHub 新星</label>
+            <label><input type="checkbox" name="briefSource" value="solidot"> 奇客 Solidot</label>
+            <label><input type="checkbox" name="briefSource" value="sspai"> 少数派</label>
+            <label><input type="checkbox" name="briefSource" value="infoq"> InfoQ</label>
+          </fieldset>
+
+          <div class="field-grid">
+            <div class="field">
+              <label for="perSource">每源条数</label>
+              <input id="perSource" type="number" min="1" max="10" step="1">
+            </div>
+            <div class="field">
+              <label for="maxItems">简报总条数</label>
+              <input id="maxItems" type="number" min="1" max="50" step="1">
+            </div>
+          </div>
+          <div class="field">
+            <label for="aiPrompt">AI 整理要求</label>
+            <textarea id="aiPrompt" rows="4"></textarea>
+          </div>
+        </section>
+
+        <div class="form-actions">
+          <button id="saveSettingsBtn" class="btn btn-primary" type="submit">
+            <i data-lucide="save"></i><span>保存配置</span>
+          </button>
+          <button id="testPushBtn" class="btn btn-ghost" type="button">
+            <i data-lucide="radio-tower"></i><span>发送测试</span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </aside>
+
+  <div id="drawerBackdrop" class="backdrop hidden"></div>
+  <div id="toast" class="toast hidden" role="status"></div>
+</body>
+</html>

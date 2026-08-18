@@ -1,0 +1,12 @@
+{
+  "name": "yunjian-poem-push",
+  "version": "1.0.0",
+  "private": true,
+  "description": "诗词与科技简报推送站，配置持久化保存，可部署到服务器",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

@@ -1,0 +1,12 @@
+services:
+  yunjian:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "3210:3210"
+    environment:
+      - PORT=3210
+      - HOST=0.0.0.0
+    volumes:
+      - ./data:/app/data
+

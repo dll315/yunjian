@@ -1,0 +1,7 @@
+{"kind":"poem","ok":true,"detail":"推送成功","extra":{"trigger":"manual","title":"一剪梅·唱到阳关第四声"},"ts":"2026-08-18T14:41:17.856Z"}
+{"kind":"poem","ok":true,"detail":"推送成功","extra":{"trigger":"manual","title":"醉花阴·薄雾浓云愁永昼"},"ts":"2026-08-18T14:41:24.637Z"}
+{"kind":"poem","ok":true,"detail":"推送成功","extra":{"trigger":"manual","title":"长恨歌"},"ts":"2026-08-18T14:41:31.139Z"}
+{"kind":"brief","ok":true,"detail":"推送成功","extra":{"trigger":"manual","generatedAt":"2026-08-18T12:00:26.717Z","aiUsed":false},"ts":"2026-08-18T14:41:35.878Z"}
+{"kind":"brief","ok":false,"detail":"markdown.content exceed max length 4096. invalid Request Parameter, hint: [1787064369445591460510793], from ip: 8.149.101.211, more info at https://open.work.weixin.qq.com/devtool/query?e=40058","extra":{"trigger":"manual","generatedAt":"2026-08-18T14:42:47.068Z","aiUsed":false},"ts":"2026-08-18T14:46:09.968Z"}
+{"kind":"brief","ok":true,"detail":"推送成功","extra":{"trigger":"manual","generatedAt":"2026-08-18T15:00:52.669Z","aiUsed":true},"ts":"2026-08-18T15:02:00.328Z"}
+{"kind":"brief","ok":true,"detail":"推送成功","extra":{"trigger":"manual","generatedAt":"2026-08-18T15:09:05.275Z","aiUsed":true},"ts":"2026-08-18T15:11:01.615Z"}

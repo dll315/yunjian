@@ -1,0 +1,37 @@
+{
+  "admin": {
+    "passwordHash": "d9aa26cb80078667112dbb81a136aba7$30c585aa8508f9f7078f6370b5ff1801de92b78f6f2298ad6b75c69fbeea43fd"
+  },
+  "wechat": {
+    "webhook": "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=d94f47ef-e9d1-4445-b4f6-d665691d0ce2"
+  },
+  "ai": {
+    "enabled": true,
+    "baseUrl": "https://chat.intern-ai.org.cn/api/v1",
+    "apiKey": "sk-xCHPfHBiNKG7sKFFa0U88Ra3rmknR26wHqpsgnPlHJPDZow3",
+    "model": "intern-s2-preview-397b"
+  },
+  "poem": {
+    "source": "jinrishici",
+    "theme": ""
+  },
+  "brief": {
+    "sources": [
+      "sspai",
+      "infoq"
+    ],
+    "perSource": 5,
+    "maxItems": 6,
+    "aiPrompt": "精炼新闻内容，去除无关信息，只保留汉语"
+  },
+  "scheduler": {
+    "enabled": true,
+    "timezone": "Asia/Shanghai",
+    "times": [
+      "09:00"
+    ],
+    "items": [
+      "poem"
+    ]
+  }
+}
